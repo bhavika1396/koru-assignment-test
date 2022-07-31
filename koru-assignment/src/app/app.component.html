@@ -1,0 +1,245 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 ">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-grey  mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Alert
+      </button>
+
+      <!-- Modal -->
+      <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-xxl-down modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Alerts</h5>
+              <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close" id="x">X</button>
+              
+            </div>
+            <div class="modal-body">
+              <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                    type="button" role="tab" aria-controls="home" aria-selected="true">Immunisation Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Lab Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">DI Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link " id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="true">Procedure Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">RX Specific Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">DX Specific Alerts</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">Patient Specific Alerts</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="col-12 ">
+                    <div class="row mt-3 mt-lg-5 ">
+                      <div class="col-lg-8 mb-3 mb-lg-0">
+                        <!-- <div class="container">
+                          <div class="content"> -->
+                        <h5 class="text-green mb-3">Immunization Alerts</h5>
+                        <div class="row justify-content-between">
+                          <div class="col-9">
+                            <div class="row d-flex align-items-center ">
+                              <dl class="d-flex align-items-center">
+                                <div class="col-auto me-3">
+                                  <label for="exampleInputEmail1" class="form-label text-black">Find</label>
+                                </div>
+                                <dd class="col-md-6">
+                                  <!-- <input type="text" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" name="search" ngModel required> -->
+                                  <mat-form-field appearance="outline">
+                                    <input matInput (keyup)="applyFilter($event)">
+                                  </mat-form-field>
+                                </dd>
+                              </dl>
+                            </div>
+                          </div>
+                          <div class="col-3  justify-content-end text-end">
+                            <button class="btn btn-grey text-black" (click)="removeSelectedRows()">Delete</button>
+                          </div>
+                        </div>
+
+
+
+
+                        <!-- <mat-form-field>
+                          <input matInput  (keyup) ="setNewUserName($event.target.value)" placeholder="Filter">
+                        </mat-form-field> -->
+
+                        <!-- <mat-form-field appearance="standard">
+                              <mat-label>Filter</mat-label>
+                              <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+                            </mat-form-field> -->
+                        <div class="col-12">
+                          <!-- <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event)" placeholder="Filter" type="text"
+                              class="form-control" id="exampleInputFilter1" aria-describedby="filterHelp" name="search">
+                          </mat-form-field> -->
+
+                          <div class="example-container mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort
+                              (matSortChange)="announceSortChange($event)">
+                              <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+                              <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                  <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                  </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                  <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null" [(ngModel)]="row.isDelete"
+                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                  </mat-checkbox>
+                                </td>
+                              </ng-container>
+
+                              <!-- Position Column -->
+                              <!-- <ng-container matColumnDef="id">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    sortActionDescription="Sort by number">Id</th>
+                                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                </ng-container> -->
+
+                              <!-- Name Column -->
+                              <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                  sortActionDescription="Sort by name">
+                                  Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                              </ng-container>
+
+                              <!-- Weight Column -->
+                              <ng-container matColumnDef="description">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                  sortActionDescription="Sort by description"> Description </th>
+                                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                              </ng-container>
+
+                              <!-- Symbol Column -->
+                              <ng-container matColumnDef="webReference">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                  sortActionDescription="Sort by webReference"> Web Reference </th>
+                                <td mat-cell *matCellDef="let element"> {{element.webReference}} </td>
+                              </ng-container>
+
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                (click)="selection.toggle(row)">
+                              </tr>
+                            </table>
+                            <mat-paginator class="d-flex justiy-content-start" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+                            </mat-paginator>
+                          </div>
+                        </div>
+
+                        <!-- </div>
+                        </div> -->
+                      </div>
+                      <div class="col-lg-4">
+                        <!-- <div class="col-lg-6 mt-5 mt-lg-0"> -->
+                        <form #adduserform="ngForm" name="form" (ngSubmit)="onadduser(adduserform.value)">
+                          <div class="mb-3">
+                            <div class="row mb-3">
+                              <dl class="d-flex align-items-center form-group"
+                                [class.has-error]="name.invalid && name.touched " [class.has-success]="name.valid">
+                                <div class="col-3">
+                                  <label for="exampleInputName1" class="form-label text-black">Name</label>
+                                </div>
+                                <dd class="col-9">
+                                  <input type="text" class="form-control" id="exampleInputName1" #name="ngModel"
+                                    [ngClass]="{ 'is-invalid': adduserform.submitted && name.invalid }"
+                                    aria-describedby="nameHelp" name="name" [(ngModel)]="model.name" required />
+                                  <span class="help-block" *ngIf="name.invalid  && name.touched">Name is required
+                                  </span>
+                                </dd>
+
+                              </dl>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <div class="row">
+                              <dl class="d-flex align-items-center form-group"
+                                [class.has-error]="description.invalid && description.touched "
+                                [class.has-success]="description.valid">
+                                <div class="col-3">
+                                  <label for="exampleInputDescription1" class="form-label text-black">Description</label>
+                                </div>
+                                <dd class="col-9">
+                                  <input type="text" class="form-control" id="exampleInputDescription1"
+                                    name="description" [(ngModel)]="model.description" #description="ngModel"
+                                    [ngClass]="{ 'is-invalid': adduserform.submitted && description.invalid }"
+                                    required />
+                                  <span class="help-block"
+                                    *ngIf="description.invalid  && description.touched">Description is required
+                                  </span>
+                                </dd>
+                              </dl>
+                            </div>
+
+                          </div>
+                          <div class="mb-3">
+                            <div class="row">
+                              <dl class="d-flex align-items-items form-group"
+                                [class.has-error]="webReference.invalid && webReference.touched "
+                                [class.has-success]="webReference.valid">
+                                <div class="col-3">
+                                  <label for="exampleInputWebReference1" class="form-label text-black">Web Ref.</label>
+                                </div>
+                                <dd class="col-9">
+                                  <input type="text" class="form-control" id="exampleInputWebReference1"
+                                    name="webReference" [(ngModel)]="model.webReference" #webReference="ngModel"
+                                    [ngClass]="{ 'is-invalid': adduserform.submitted && webReference.invalid }"
+                                    required />
+                                  <span class="help-block" *ngIf="webReference.invalid  && webReference.touched">Web
+                                    Reference is required
+                                  </span>
+                                </dd>
+                              </dl>
+                            </div>
+                          </div>
+                          <div class="mb-3 d-flex  justify-content-end ">
+                            <button type="submit" class="btn btn-grey text-black" [disabled]="!adduserform.valid">Add</button>
+                          </div>
+                        </form>
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
